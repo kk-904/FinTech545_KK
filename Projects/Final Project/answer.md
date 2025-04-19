@@ -623,10 +623,109 @@ Most stocks are modeled with t distribution, and a few are modeled with NIG. Thi
 
 I calculated the 1 day VaR and ES for each portfolio and the total portfolio using a Gaussian Copula and using a multivariate normal simulation. The results are followed.
 
+|Portfolio | VaR (Simulated Copula)  | ES (Simulated Copula) | VaR (Multivariate Normal) | ES (Multivariate Normal) |
+|--------------------|----------|----------|------------|----------|
+| A| 4340.21 | 5841.83| 4126.87 | 5319.92 |
+| B | 4016.50 | 5255.86 | 3750.65 | 4824.90 |
+| C | 3715.70 | 4929.94 | 3663.40 | 4519.39 |
 
+From the result, VaR and ES using our fitted models are greater than assuing multivariate normal distribution. It just proves that t distribution, NIG and skew normal distribution works better for stocks, of which the returns often have fat tails. The VaR and ES are also more reliable using these models.
 
 # Part 5
 
+## Discussion
 
+Risk Parity means the risk budgets are the same for each asset in a portfolio. To calculate the component ES for each stock, I estimated it using finite differences and simulated returns with the fitted models and Gaussian Copula. The optimization target is to minimize SSE of component ES.
+
+$CES=w \# \frac{\delta ES}{\delta w}$
+
+$SSE = \sum_{i}^{n} \left( CES_i - \overline{CES} \right)^2$
 
 *The optimizer in Python does not work well here, and the results may not be right.*
+
+### A
+
+Optimization for A
+
+Optimized Weights: [0.03030303 0.03030303 0.03030303 0.03030303 0.03030303 0.03030303
+ 0.03030303 0.03030303 0.03030303 0.03030303 0.03030303 0.03030303
+ 0.03030303 0.03030303 0.03030303 0.03030303 0.03030303 0.03030303
+ 0.03030303 0.03030303 0.03030303 0.03030303 0.03030303 0.03030303
+ 0.03030303 0.03030303 0.03030303 0.03030303 0.03030303 0.03030303
+ 0.03030303 0.03030303 0.03030303]
+Component ES: [0.00073699 0.00076814 0.00078974 0.00093906 0.00027024 0.00017917
+ 0.00025645 0.00069291 0.00045661 0.00051784 0.00058828 0.00060999
+ 0.00062025 0.00021502 0.00021181 0.00121344 0.00085001 0.00033811
+ 0.00106467 0.00033327 0.0005525  0.00074488 0.00081863 0.00090397
+ 0.00057296 0.00040746 0.00086667 0.00105138 0.00051256 0.00028882
+ 0.00066068 0.00051978 0.0006727 ]
+
+Total ES: 0.02022499913377201
+
+Attribution for A
+
+|                    | SPY      | Alpha    | Portfoliio |
+|--------------------|----------|----------|------------|
+| Total Return       | 0.198692 | 0.029657 | 0.229236   |
+| Return Attribution | 0.197290 | 0.031946 | 0.229236   |
+| Vol Attribution    | 0.007688 | 0.000444 | 0.008132   |
+
+### B
+
+Optimization for B
+
+Optimized Weights: [0.03030303 0.03030303 0.03030303 0.03030303 0.03030303 0.03030303
+ 0.03030303 0.03030303 0.03030303 0.03030303 0.03030303 0.03030303
+ 0.03030303 0.03030303 0.03030303 0.03030303 0.03030303 0.03030303
+ 0.03030303 0.03030303 0.03030303 0.03030303 0.03030303 0.03030303
+ 0.03030303 0.03030303 0.03030303 0.03030303 0.03030303 0.03030303
+ 0.03030303 0.03030303 0.03030303]
+Component ES: [0.00080141 0.00056186 0.00079185 0.00103123 0.00039859 0.00047861
+ 0.00069331 0.00035364 0.00038731 0.00064774 0.00050268 0.00052851
+ 0.00069751 0.00063568 0.00058348 0.00045374 0.00038959 0.00023823
+ 0.00082429 0.00062124 0.00042313 0.0006623  0.00047763 0.00082068
+ 0.00053998 0.00032171 0.00056456 0.00041924 0.00026218 0.00070209
+ 0.00085007 0.00041364 0.00063104]
+
+Total ES: 0.018708758141584413
+
+Attribution for B
+
+|                    | SPY      | Alpha    | Portfoliio |
+|--------------------|----------|----------|------------|
+| Total Return       | 0.198692 | 0.072582 | 0.255865   |
+| Return Attribution | 0.177605 | 0.078261 | 0.255865   |
+| Vol Attribution    | 0.006412 | 0.000411 | 0.006822   |
+
+### C
+
+Optimization for C
+
+Optimized Weights: [0.03030303 0.03030303 0.03030303 0.03030303 0.03030303 0.03030303
+ 0.03030303 0.03030303 0.03030303 0.03030303 0.03030303 0.03030303
+ 0.03030303 0.03030303 0.03030303 0.03030303 0.03030303 0.03030303
+ 0.03030303 0.03030303 0.03030303 0.03030303 0.03030303 0.03030303
+ 0.03030303 0.03030303 0.03030303 0.03030303 0.03030303 0.03030303
+ 0.03030303 0.03030303 0.03030303]
+Component ES: [2.80712756e-04 7.24444905e-04 4.74563119e-04 8.03876377e-04
+ 7.79810797e-04 2.52423290e-04 2.05453160e-04 3.24663622e-04
+ 4.57526637e-04 6.52310070e-04 8.70798930e-04 7.33811422e-04
+ 3.90287690e-04 4.41403767e-04 1.79846097e-03 4.20342307e-04
+ 5.70382664e-04 5.94608626e-04 1.85248796e-04 5.33721410e-04
+ 5.06671643e-04 8.58208689e-04 9.19567954e-04 9.81956649e-04
+ 4.59909835e-04 4.46570718e-04 9.49208172e-05 1.30311883e-03
+ 6.59407541e-04 1.66422496e-04 2.80281533e-04 8.75557453e-04
+ 6.48019893e-04]
+
+Total ES: 0.01969546536374033
+
+Attribution for C
+
+|                    | SPY      | Alpha    | Portfoliio |
+|--------------------|----------|----------|------------|
+| Total Return       | 0.198692 | 0.169674 | 0.397244   |
+| Return Attribution | 0.212557 | 0.184687 | 0.397244   |
+| Vol Attribution    | 0.007803 | 0.001003 | 0.008806   |
+
+The returns of optimized portfolios are lower than those in Part 2, but are still higher than Part 1.
+Risk attribution balances the return and risk for the portfolio, and reduces risk by diversification while maintaining returns.
