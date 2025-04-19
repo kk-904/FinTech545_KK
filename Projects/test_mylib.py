@@ -189,14 +189,14 @@ def test_8_5():
     result.reset_index(drop=True, inplace=True)
     pdt.assert_frame_equal(result, output, atol=1e-4)
     
-# def test_8_6():
-#     sample = pd.read_csv("testfiles/data/test7_2.csv")
-#     output = pd.read_csv("testfiles/data/testout8_6.csv")
-#     es = mylib.es(sample, dist="sim")
-#     diff = sample.mean() + es
-#     result = pd.DataFrame({'ES Absolute': es, 'ES Diff from Mean': diff})
-#     result.reset_index(drop=True, inplace=True)
-#     pdt.assert_frame_equal(result, output)
+def test_8_6():
+    sample = pd.read_csv("testfiles/data/test7_2.csv")
+    output = pd.read_csv("testfiles/data/testout8_6.csv")
+    es = mylib.es(sample, dist="sim")
+    diff = sample.mean() + es
+    result = pd.DataFrame({'ES Absolute': es, 'ES Diff from Mean': diff})
+    result.reset_index(drop=True, inplace=True)
+    pdt.assert_frame_equal(result, output)
 
 def test_9_1():
     pf = pd.read_csv("testfiles/data/test9_1_portfolio.csv")

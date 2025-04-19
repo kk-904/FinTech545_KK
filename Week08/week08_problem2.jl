@@ -19,9 +19,9 @@ include("../library/RiskStats.jl")
 include("../library/simulate.jl")
 include("../library/return_calculate.jl")
 
-ff3 = CSV.read("F-F_Research_Data_Factors_daily.CSV", DataFrame)
-mom = CSV.read("F-F_Momentum_Factor_daily.CSV",DataFrame)
-returns = CSV.read("DailyReturn.csv",DataFrame)
+ff3 = CSV.read("./Week08/F-F_Research_Data_Factors_daily.CSV", DataFrame)
+mom = CSV.read("./Week08/F-F_Momentum_Factor_daily.CSV",DataFrame)
+returns = CSV.read("./Week08/DailyReturn.csv",DataFrame)
 
 # Join the FF3 data with the Momentum Data
 ffData = innerjoin(ff3,mom,on=:Date)
@@ -84,12 +84,12 @@ OptWeights = DataFrame(:Stock=>String.(stocks), :Weight => w, :cEr => stockMeans
 println(OptWeights)
 
 #Get Updated Prices 
-updated = CSV.read("updated_prices.csv",DataFrame)
+updated = CSV.read("./Week08/updated_prices.csv",DataFrame)
 updated[!,:Date] = Date.(updated.Date,dateformat"mm/dd/yyyy")
 upReturns = return_calculate(updated,dateColumn="Date")
 
-upFf3 = CSV.read("updated_F-F_Research_Data_Factors_daily.CSV", DataFrame)
-upMom = CSV.read("updated_F-F_Momentum_Factor_daily.CSV",DataFrame)
+upFf3 = CSV.read("./Week08/updated_F-F_Research_Data_Factors_daily.CSV", DataFrame)
+upMom = CSV.read("./Week08/updated_F-F_Momentum_Factor_daily.CSV",DataFrame)
 upFfData = innerjoin(upFf3,upMom,on=:Date)
 rename!(upFfData, names(upFfData)[size(ffData,2)] => :Mom)
 rename!(upFfData, Symbol("Mkt-RF")=>:Mkt_RF)
