@@ -64,7 +64,20 @@ Attributions explain the fact that SPY is attributed to the majority of the retu
 
 ## Optimize portfolio
 
-Sharpe Ratio divides a portfolio's excess returns by a measure of its volatility to assess risk-adjusted performance. We optimized the portfolios using Sharpe Ratio as the metric. Our target is to maximize the Sharpe Ratio of each portfolio.
+Sharpe Ratio divides a portfolio's excess returns by a measure of its volatility to assess risk-adjusted performance.
+
+Sharpe Ratio is calculated as:
+
+$
+Sharpe\ Ratio = \frac{E(R_p) - R_f}{\sigma_p}
+$
+
+Where:
+- $E(R_p)$ is the expected portfolio return,
+- $R_f$ is the risk free rate,
+- $\sigma_p$ is the portfolio standard deviation.
+
+We optimized the portfolios using Sharpe Ratio as the metric using Scipy's optimizer. Our target is to maximize the Sharpe Ratio of each portfolio.
 
 ## Result
 
@@ -179,6 +192,8 @@ Lowest Sharpe Ratio: 0.0696
 ## Discussion
 
 After our optimization based on Sharpe Ratio, the excess return over risk improved for our portfolios. Compared to Part 1, we can notice a significant increase in Alpha (except portfolio B,and the fact that a great portion of return is now comming from Alpha, which means the optimized portfolios are now performing better than the market. Volatility for the portfolios increased, but compared to the increase in return it's still worths.
+
+Expectation of the idiosyncratic risk contribution is generally greater than realized values. It is because the diversified portfolio mitigates idiosyncratic risk of each stock.
 
 # Part 3
 
@@ -625,9 +640,9 @@ I calculated the 1 day VaR and ES for each portfolio and the total portfolio usi
 
 |Portfolio | VaR (Simulated Copula)  | ES (Simulated Copula) | VaR (Multivariate Normal) | ES (Multivariate Normal) |
 |--------------------|----------|----------|------------|----------|
-| A| 4340.21 | 5841.83| 4126.87 | 5319.92 |
-| B | 4016.50 | 5255.86 | 3750.65 | 4824.90 |
-| C | 3715.70 | 4929.94 | 3663.40 | 4519.39 |
+| A| 4357.78 | 5711.07 | 4091.16 | 5249.42 |
+| B | 3866.07 | 5202.16 | 3616.32 | 4763.97 |
+| C | 4184.55 | 5327.68 | 3491.43 | 5009.36 |
 
 From the result, VaR and ES using our fitted models are greater than assuing multivariate normal distribution. It just proves that t distribution, NIG and skew normal distribution works better for stocks, of which the returns often have fat tails. The VaR and ES are also more reliable using these models.
 
